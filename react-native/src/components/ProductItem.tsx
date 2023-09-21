@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { ProductThumbnail } from "./ProductThumbnail";
 import { ProductName } from "./ProductName";
+import { ProductDate } from "./ProductDate";
 
 interface ProductItemProps {
   productName: string;
@@ -22,6 +23,7 @@ export const ProductItem = ({
         <View style={styles.productDetailsHeader}>
           <View>
             <ProductName name={productName} />
+            <ProductDate date={productPosted} />
           </View>
         </View>
       </View>
