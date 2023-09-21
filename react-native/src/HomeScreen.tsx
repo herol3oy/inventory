@@ -10,6 +10,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { StackParamList } from "./App";
 import { ProductItem } from "./components/ProductItem";
 import { DisplayMessage } from "./components/DisplayMessage";
+import { ProductsContainer } from "./components/ProductsContainer";
 
 export default (props: StackScreenProps<StackParamList, "Home">) => {
   const fetching = useSelector((state: RootState) => state.inventory.fetching);
@@ -42,7 +43,7 @@ export default (props: StackScreenProps<StackParamList, "Home">) => {
         }
       >
         <SafeAreaView>
-          <View style={styles.productContainer}>
+          <ProductsContainer>
             {inventory.length ? (
               inventory.map((record) => (
                 <ProductItem
@@ -56,7 +57,7 @@ export default (props: StackScreenProps<StackParamList, "Home">) => {
             ) : (
               <DisplayMessage message="Loading Products..." />
             )}
-          </View>
+          </ProductsContainer>
         </SafeAreaView>
       </ScrollView>
 
@@ -81,8 +82,4 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center"
   },
-  productContainer: {
-    rowGap: 12,
-    paddingHorizontal: 16
-  }
 });
