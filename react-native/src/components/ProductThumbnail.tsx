@@ -7,7 +7,7 @@ export const ProductThumbnail = ({
 }) => {
   return (
     <Image
-      style={styles.productImage}
+      style={[styles.productImage, !productImage && { height: 113 }]}
       source={
         productImage
           ? { uri: productImage }
