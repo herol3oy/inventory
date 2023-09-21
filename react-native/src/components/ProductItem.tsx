@@ -8,6 +8,7 @@ import { calculateProductIsNew } from "../utils/calculate-product-is-new";
 import { ProductBadge } from "./ProductBadge";
 import { ChevronArrowImage } from "./ChevronArrowImage";
 import { CategoryBadge } from "./CategoryBadge";
+import { DisplayMessage } from "./DisplayMessage";
 
 interface ProductItemProps {
   productName: string;
@@ -50,8 +51,12 @@ export const ProductItem = ({
         </View>
         <View style={styles.categoryContainer}>
           {!isCategoryOpen &&
-            splitedCategories.map((category, index) => (
-              <CategoryBadge key={index} category={category} />
+            (splitedCategories?.length ? (
+              splitedCategories.map((category, index) => (
+                <CategoryBadge key={index} category={category} />
+              ))
+            ) : (
+              <DisplayMessage message="No Category!" />
             ))}
         </View>
       </View>
