@@ -1,13 +1,15 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
-import { Appbar, DataTable, FAB } from "react-native-paper";
+import { Appbar, FAB } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
 import { selectors, actions } from "./store/inventory";
 import { RootState } from "./store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackScreenProps } from "@react-navigation/stack";
 import { StackParamList } from "./App";
+import { ProductItem } from "./components/ProductItem";
+import { DisplayMessage } from "./components/DisplayMessage";
 
 export default (props: StackScreenProps<StackParamList, "Home">) => {
   const fetching = useSelector((state: RootState) => state.inventory.fetching);
@@ -22,9 +24,12 @@ export default (props: StackScreenProps<StackParamList, "Home">) => {
   }, [props.navigation]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <Appbar.Header>
-        <Appbar.Content title="Inventory" />
+        <Appbar.Content
+          title="Inventory"
+          titleStyle={{ textAlign: "center", fontSize: 24, color: "#000000" }}
+        />
       </Appbar.Header>
 
       <ScrollView
@@ -37,21 +42,21 @@ export default (props: StackScreenProps<StackParamList, "Home">) => {
         }
       >
         <SafeAreaView>
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>Product Code</DataTable.Title>
-              <DataTable.Title numeric>Scan Date</DataTable.Title>
-            </DataTable.Header>
-            {inventory.map((record, index) => (
-              <DataTable.Row key={index}>
-                <DataTable.Cell>{record.fields["Product Code"]}</DataTable.Cell>
-                <DataTable.Cell numeric>
-                  {new Date(record.fields.Posted).toLocaleDateString()}{" "}
-                  {new Date(record.fields.Posted).toLocaleTimeString()}
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
-          </DataTable>
+          <View style={styles.productContainer}>
+            {inventory.length ? (
+              inventory.map((record) => (
+                <ProductItem
+                  key={record.id}
+                  productName={record.fields["Product Name"]}
+                  productImage={record.fields["Product Image"]}
+                  productPosted={record.fields.Posted}
+                  productCategories={record.fields["Product Categories"]}
+                />
+              ))
+            ) : (
+              <DisplayMessage message="Loading Products..." />
+            )}
+          </View>
         </SafeAreaView>
       </ScrollView>
 
@@ -75,5 +80,9 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
     alignItems: "center"
+  },
+  productContainer: {
+    rowGap: 12,
+    paddingHorizontal: 16
   }
 });
