@@ -10,6 +10,8 @@ import { ChevronArrowImage } from "./ChevronArrowImage";
 import { CategoryBadge } from "./CategoryBadge";
 import { DisplayMessage } from "./DisplayMessage";
 
+const COMMA_AND_SPACE_REGEX = /[, ]+/;
+
 interface ProductItemProps {
   productName: string;
   productImage: string;
@@ -27,7 +29,8 @@ export const ProductItem = ({
 
   const isProductNew: boolean = calculateProductIsNew(productPosted);
 
-  const splitedCategories: string[] = productCategories?.split(",");
+  const splitedCategories: string[] =
+    productCategories?.split(COMMA_AND_SPACE_REGEX);
 
   const handleCategoryToggle = () => {
     setIsCategoryOpen((open) => !open);
