@@ -7,6 +7,7 @@ import { ProductDate } from "./ProductDate";
 import { calculateProductIsNew } from "../utils/calculate-product-is-new";
 import { ProductBadge } from "./ProductBadge";
 import { ChevronArrowImage } from "./ChevronArrowImage";
+import { CategoryBadge } from "./CategoryBadge";
 
 interface ProductItemProps {
   productName: string;
@@ -24,6 +25,8 @@ export const ProductItem = ({
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(true);
 
   const isProductNew: boolean = calculateProductIsNew(productPosted);
+
+  const splitedCategories: string[] = productCategories?.split(",");
 
   const handleCategoryToggle = () => {
     setIsCategoryOpen((open) => !open);
@@ -44,6 +47,12 @@ export const ProductItem = ({
               <ChevronArrowImage isCategoryOpen={isCategoryOpen} />
             </TouchableWithoutFeedback>
           </View>
+        </View>
+        <View style={styles.categoryContainer}>
+          {!isCategoryOpen &&
+            splitedCategories.map((category, index) => (
+              <CategoryBadge key={index} category={category} />
+            ))}
         </View>
       </View>
     </View>
@@ -72,5 +81,10 @@ const styles = StyleSheet.create({
   badgeContainer: {
     flexDirection: "row",
     columnGap: 12
+  },
+  categoryContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 5
   }
 });
