@@ -2,6 +2,8 @@ import { View, StyleSheet } from "react-native";
 import { ProductThumbnail } from "./ProductThumbnail";
 import { ProductName } from "./ProductName";
 import { ProductDate } from "./ProductDate";
+import { calculateProductIsNew } from "../utils/calculate-product-is-new";
+import { ProductBadge } from "./ProductBadge";
 
 interface ProductItemProps {
   productName: string;
@@ -16,6 +18,8 @@ export const ProductItem = ({
   productPosted,
   productCategories
 }: ProductItemProps) => {
+  const isProductNew: boolean = calculateProductIsNew(productPosted);
+
   return (
     <View style={styles.productContainer}>
       <ProductThumbnail productImage={productImage} />
@@ -24,6 +28,9 @@ export const ProductItem = ({
           <View>
             <ProductName name={productName} />
             <ProductDate date={productPosted} />
+          </View>
+          <View style={styles.badgeContainer}>
+            {isProductNew && <ProductBadge name="New" />}
           </View>
         </View>
       </View>
@@ -49,5 +56,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between"
+  },
+  badgeContainer: {
+    flexDirection: "row",
+    columnGap: 12
   }
 });
